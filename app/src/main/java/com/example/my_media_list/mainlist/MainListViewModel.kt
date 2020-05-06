@@ -1,4 +1,6 @@
 package com.example.my_media_list.mainlist
 
-class MainListViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainListViewModel: ViewModel() {
 }

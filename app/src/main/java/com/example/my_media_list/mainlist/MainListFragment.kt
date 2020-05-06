@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.my_media_list.R
 import com.example.my_media_list.databinding.FragmentMainListBinding
 
@@ -19,6 +20,12 @@ class MainListFragment : Fragment() {
             inflater,
             R.layout.fragment_main_list, container, false
         )
+        val viewModelFactory = MainListViewModelFactory()
+        val mainListViewModel = ViewModelProvider(this, viewModelFactory)
+            .get(MainListViewModel::class.java)
+        binding.mainListViewModel = mainListViewModel
+
+
         return binding.root
     }
 
