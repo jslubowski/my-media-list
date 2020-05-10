@@ -6,7 +6,7 @@
     <data>
         <variable
             name="titleScreenViewModel"
-            type="com.example.my_media_list.titlescreen.TitleScreenViewModel" />
+            type="com.example.mymedialist.titlescreen.TitleScreenViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

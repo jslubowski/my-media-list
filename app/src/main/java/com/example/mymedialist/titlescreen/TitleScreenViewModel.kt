@@ -1,4 +1,4 @@
-package com.example.my_media_list.titlescreen
+package com.example.mymedialist.titlescreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

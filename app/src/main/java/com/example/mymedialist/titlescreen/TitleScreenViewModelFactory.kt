@@ -1,4 +1,4 @@
-package com.example.my_media_list.titlescreen
+package com.example.mymedialist.titlescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

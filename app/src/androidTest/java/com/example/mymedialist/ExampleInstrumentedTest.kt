@@ -1,4 +1,4 @@
-package com.example.my_media_list
+package com.example.mymedialist
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

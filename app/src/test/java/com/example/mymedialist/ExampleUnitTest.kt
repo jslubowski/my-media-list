@@ -1,4 +1,4 @@
-package com.example.my_media_list
+package com.example.mymedialist
 
 import org.junit.Test
 

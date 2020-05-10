@@ -1,9 +1,9 @@
-package com.example.my_media_list
+package com.example.mymedialist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import com.example.my_media_list.databinding.ActivityMainBinding
+import com.example.mymedialist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

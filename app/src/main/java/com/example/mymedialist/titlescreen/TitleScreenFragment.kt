@@ -1,4 +1,4 @@
-package com.example.my_media_list.titlescreen
+package com.example.mymedialist.titlescreen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.my_media_list.R
-import com.example.my_media_list.databinding.FragmentTitleScreenBinding
-
+import com.example.mymedialist.R
+import com.example.mymedialist.databinding.FragmentTitleScreenBinding
 
 class TitleScreenFragment : Fragment() {
 
@@ -24,13 +23,14 @@ class TitleScreenFragment : Fragment() {
             R.layout.fragment_title_screen, container, false
         )
 
-        val viewModelFactory = TitleScreenViewModelFactory()
+        val viewModelFactory =
+            TitleScreenViewModelFactory()
         val titleScreenViewModel = ViewModelProvider(this, viewModelFactory)
             .get(TitleScreenViewModel::class.java)
         binding.titleScreenViewModel = titleScreenViewModel
 
         titleScreenViewModel.navigateToMainList.observe(this, Observer {
-            if (it == true){
+            if (it == true) {
                 this.findNavController().navigate(
                     TitleScreenFragmentDirections.actionTitleScreenFragmentToMainListFragment()
                 )
