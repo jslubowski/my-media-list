@@ -8,15 +8,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
+import androidx.navigation.fragment.findNavController
 import com.example.mymedialist.R
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentMainListBinding
+import com.example.mymedialist.repository.MovieRepository
 
 class MainListFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentMainListBinding = DataBindingUtil.inflate(
@@ -26,22 +28,40 @@ class MainListFragment : Fragment() {
 
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
+        val dao = MediaDatabase.getInstance(application).movieDao
+        val datasource = MovieRepository(dao)
 
-        val dataSource = MediaDatabase.getInstance(application).movieDao
-
-        val viewModelFactory = MainListViewModelFactory(dataSource, application)
-        val viewModel = ViewModelProvider(this, viewModelFactory)
+        val viewModelFactory = MainListViewModelFactory(datasource, application)
+        val mainListViewModel = ViewModelProvider(this, viewModelFactory)
             .get(MainListViewModel::class.java)
-        binding.mainListViewModel = viewModel
+        binding.mainListViewModel = mainListViewModel
 
-        binding.lifecycleOwner = this
-
-        val adapter = MainListAdapter()
+        val adapter = MainListAdapter(MainListAdapter.OnClickListener {
+            mainListViewModel.displayMovieDetails(it)
+        })
         binding.mediaList.adapter = adapter
 
-        viewModel.movies.observe(viewLifecycleOwner, Observer {
+        mainListViewModel.movies.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
+            }
+        })
+
+        mainListViewModel.navigateToMovieDetails.observe(this, Observer {
+            if (it != null) {
+                this.findNavController().navigate(
+                    MainListFragmentDirections.actionMainListFragmentToMovieDetailsFragment(it)
+                )
+                mainListViewModel.displayMovieDetailsComplete()
+            }
+        })
+
+        mainListViewModel.navigateToAddScreen.observe(this, Observer {
+            if (it == true) {
+                this.findNavController().navigate(
+                    MainListFragmentDirections.actionMainListFragmentToAddMediaFragment()
+                )
+                mainListViewModel.doneNavigating()
             }
         })
 

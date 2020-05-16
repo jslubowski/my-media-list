@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="movieDetailsViewModel"
+            type="com.example.mymedialist.details.MovieDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_cover"
+            android:layout_width="144dp"
+            android:layout_height="206dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/btn_dialog" />
+
+        <TextView
+            android:id="@+id/movie_title_text"
+            android:layout_width="221dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_cover"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Movie Title"
+            android:text="@{movieDetailsViewModel.selectedMovie.title}"/>
+
+        <TextView
+            android:id="@+id/release_year_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/release_year"
+            app:layout_constraintStart_toEndOf="@+id/image_cover"
+            app:layout_constraintTop_toBottomOf="@+id/movie_title_text" />
+
+        <TextView
+            android:id="@+id/release_year_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/release_year_text"
+            app:layout_constraintTop_toBottomOf="@+id/movie_title_text"
+            tools:text="release year"
+            android:text="@{movieDetailsViewModel.selectedMovie.releaseYear}"/>
+
+        <TextView
+            android:id="@+id/last_seen_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/seen_on"
+            app:layout_constraintStart_toEndOf="@+id/image_cover"
+            app:layout_constraintTop_toBottomOf="@+id/release_year_text" />
+
+        <TextView
+            android:id="@+id/last_seen_on_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/last_seen_details"
+            app:layout_constraintTop_toBottomOf="@+id/release_year_text"
+            tools:text="dd/mm/yyyy"
+            android:text="@{movieDetailsViewModel.selectedMovie.seenOnDate}"/>
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="367dp"
+            android:layout_height="420dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_cover"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam magna ipsum, congue consequat ipsum quis, porttitor fringilla sapien. Praesent at nulla sit amet nibh tempus varius. Nullam eu arcu eget enim porttitor vulputate. Integer vulputate non odio eget vestibulum. Donec lobortis pretium volutpat. Praesent hendrerit sagittis mauris et rutrum. Nunc eu diam at orci molestie malesuada sit amet ut turpis. Vivamus tristique, velit eget ultricies pulvinar, elit magna varius risus, at suscipit quam erat et massa.  Curabitur euismod ex sed velit rutrum, vitae viverra justo venenatis. Suspendisse porta purus et mattis malesuada. Morbi nec dui ut elit bibendum laoreet. Praesent in tincidunt ex, sed vehicula metus. Nulla consectetur diam a ullamcorper tempus. Nunc lorem felis, imperdiet eu turpis eu, sodales tempus massa. Donec a cursus augue. Donec eget venenatis lorem, vel ultrices enim. Maecenas porttitor tempor felis ut accumsan. Vivamus nec commodo tortor. Integer nec interdum diam.  Mauris aliquam, dui at tristique consectetur, ante felis placerat dui, eu pharetra nibh lectus eu enim. Cras at auctor purus. Sed id augue eu ante aliquam bibendum vel vel massa. Cras tempor porta cursus. Duis aliquet ex sed pellentesque molestie. Vestibulum nec orci lorem. Quisque eget elit id ipsum tempus tempor eu nec."
+            android:text="@{movieDetailsViewModel.selectedMovie.description}"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/remove_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

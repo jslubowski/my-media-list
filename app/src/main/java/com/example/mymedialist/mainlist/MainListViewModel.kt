@@ -2,33 +2,51 @@ package com.example.mymedialist.mainlist
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.mymedialist.dao.MovieDao
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.mymedialist.model.MovieEntity
+import com.example.mymedialist.repository.MovieRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
 
 class MainListViewModel(
-    val database: MovieDao,
+    val datasource: MovieRepository,
     application: Application
-): AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val movies = database.getMovies()
+    private val _navigateToAddScreen = MutableLiveData<Boolean?>()
+    val navigateToAddScreen: LiveData<Boolean?>
+        get() = _navigateToAddScreen
 
-   private suspend fun insertEntity(entity: MovieEntity) {
-       withContext(Dispatchers.IO) {
-           database.insertAll(entity)
-       }
-   }
+    private val _navigateToMovieDetails = MutableLiveData<MovieEntity>()
+    val navigateToMovieDetails: LiveData<MovieEntity>
+        get() = _navigateToMovieDetails
 
-    private suspend fun deleteEntity(entity: MovieEntity) {
-        withContext((Dispatchers.IO)) {
-            database.delete(entity)
-        }
+    val movies = datasource.getAllMovies()
+
+    fun onAddButtonClick() {
+        _navigateToAddScreen.value = true
+    }
+
+    fun displayMovieDetails(movieEntity: MovieEntity) {
+        _navigateToMovieDetails.value = movieEntity
+    }
+
+    fun displayMovieDetailsComplete() {
+        _navigateToMovieDetails.value = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+    fun doneNavigating() {
+        _navigateToAddScreen.value = null
     }
 }
 
