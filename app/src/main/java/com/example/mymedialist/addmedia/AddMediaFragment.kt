@@ -14,6 +14,7 @@ import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentAddMediaBinding
 import com.example.mymedialist.model.MovieEntity
 import com.example.mymedialist.repository.MovieRepository
+import com.example.mymedialist.util.hideKeyboard
 
 
 class AddMediaFragment : Fragment() {
@@ -39,6 +40,7 @@ class AddMediaFragment : Fragment() {
         addMediaViewModel.navigateToList.observe(this, Observer {
             if(it == true) {
                 val movieEntity = MovieEntity(null, binding.titleTextInput.text.toString(), "", "", "", 1, "")
+                this.activity!!.hideKeyboard()
                 addMediaViewModel.addMovieToDatabase(movieEntity)
                 this.findNavController().navigate(
                     AddMediaFragmentDirections.actionAddMediaFragmentToMainListFragment()
@@ -50,7 +52,4 @@ class AddMediaFragment : Fragment() {
 
         return binding.root
     }
-
-
-
 }

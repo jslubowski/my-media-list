@@ -9,9 +9,10 @@ import com.example.mymedialist.repository.MovieRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MainListViewModel(
-    val datasource: MovieRepository,
+    private val datasource: MovieRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -34,6 +35,7 @@ class MainListViewModel(
 
     fun displayMovieDetails(movieEntity: MovieEntity) {
         _navigateToMovieDetails.value = movieEntity
+//        return true
     }
 
     fun displayMovieDetailsComplete() {
@@ -48,5 +50,12 @@ class MainListViewModel(
     fun doneNavigating() {
         _navigateToAddScreen.value = null
     }
+
+    fun removeFromDatabase(movieEntity: MovieEntity) {
+        uiScope.launch {
+            datasource.deleteEntity(movieEntity)
+        }
+    }
+
 }
 

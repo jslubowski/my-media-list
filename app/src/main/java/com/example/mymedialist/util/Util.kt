@@ -1,5 +1,9 @@
 package com.example.mymedialist.util
 
+import android.app.Activity
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
 fun String.smartTruncate(length: Int): String {
@@ -27,4 +31,11 @@ fun String.smartTruncate(length: Int): String {
         builder.append("...")
     }
     return builder.toString()
+}
+
+fun Activity.hideKeyboard() {
+    currentFocus?.windowToken?.let {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager?)
+            ?.hideSoftInputFromWindow(it, InputMethodManager.HIDE_NOT_ALWAYS)
+    }
 }

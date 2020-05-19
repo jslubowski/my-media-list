@@ -14,4 +14,6 @@
     <string name="seen_on">"Last seen on: "</string>
     <string name="release_year">"Release year: "</string>
     <string name="description_text">"Description: "</string>
+    <string name="edit_text">Edit...</string>
+    <string name="ok_button_text">OK</string>
 </resources>
