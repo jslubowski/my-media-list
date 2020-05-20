@@ -36,12 +36,6 @@ class MovieDetailsViewModel(
         _EditAndNavigateToMainList.value = true
     }
 
-    fun deleteCurrentEntity() {
-        uiScope.launch {
-            database.deleteEntity(_selectedMovie.value!!)
-        }
-    }
-
     fun doneNavigating(){
         _EditAndNavigateToMainList.value = null
     }

@@ -40,16 +40,16 @@ class MainListFragment : Fragment() {
         binding.mainListViewModel = mainListViewModel
 
         val adapter = MainListAdapter(MainListAdapter.OnLongClickListener {
-//            mainListViewModel.displayMovieDetails(it)
             val dialog = DetailsDialogFragment(mainListViewModel, it)
             dialog.show(fragmentManager!! , "options_dialog")
+            return@OnLongClickListener true
         })
 
         binding.mediaList.adapter = adapter
 
         mainListViewModel.movies.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
             }
         })
 

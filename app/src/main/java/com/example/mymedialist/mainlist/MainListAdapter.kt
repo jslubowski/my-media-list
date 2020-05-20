@@ -4,40 +4,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymedialist.R
 import com.example.mymedialist.model.MovieEntity
 
-class MainListAdapter(private val onLongClickListener: OnLongClickListener) : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
+class MainListAdapter(private val onLongClickListener: OnLongClickListener) : ListAdapter<MovieEntity, MainListAdapter.ViewHolder>(MovieEntityDiffCallback()) {
 
-    var data = listOf<MovieEntity>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-        holder.itemView.setOnClickListener {
+        val item = getItem(position)
+        holder.itemView.setOnLongClickListener {
             onLongClickListener.onLongClick(item)
         }
         holder.bind(item)
     }
 
-    class OnLongClickListener(val clickListener: (movieEntity: MovieEntity) -> Unit) {
+    class OnLongClickListener(val clickListener: (movieEntity: MovieEntity) -> Boolean) {
         fun onLongClick(movieEntity: MovieEntity) = clickListener(movieEntity)
     }
 
-    class ViewHolder private constructor(textView: View) : RecyclerView.ViewHolder(textView) {
+    class ViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
         private val movieTitle: TextView = itemView.findViewById(R.id.movie_title)
         private val lastSeen: TextView = itemView.findViewById(R.id.date_text)
         private val description: TextView = itemView.findViewById(R.id.description_text)
@@ -62,5 +54,4 @@ class MainListAdapter(private val onLongClickListener: OnLongClickListener) : Re
             }
         }
     }
-
 }
