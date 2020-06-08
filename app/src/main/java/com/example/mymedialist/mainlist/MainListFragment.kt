@@ -1,20 +1,17 @@
 package com.example.mymedialist.mainlist
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mymedialist.R
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentMainListBinding
-import com.example.mymedialist.model.MovieEntity
 import com.example.mymedialist.repository.MovieRepository
 
 class MainListFragment : Fragment() {

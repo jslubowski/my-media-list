@@ -1,13 +1,11 @@
 package com.example.mymedialist.mainlist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymedialist.R
+import com.example.mymedialist.databinding.ListItemBinding
 import com.example.mymedialist.model.MovieEntity
 
 class MainListAdapter(private val onLongClickListener: OnLongClickListener) : ListAdapter<MovieEntity, MainListAdapter.ViewHolder>(MovieEntityDiffCallback()) {
@@ -29,28 +27,24 @@ class MainListAdapter(private val onLongClickListener: OnLongClickListener) : Li
         fun onLongClick(movieEntity: MovieEntity) = clickListener(movieEntity)
     }
 
-    class ViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
-        private val movieTitle: TextView = itemView.findViewById(R.id.movie_title)
-        private val lastSeen: TextView = itemView.findViewById(R.id.date_text)
-        private val description: TextView = itemView.findViewById(R.id.description_text)
-        private val imageCover: ImageView = itemView.findViewById(R.id.movie_cover)
+    class ViewHolder private constructor(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val imageCover: ImageView = binding.movieCover
 
         fun bind(
             item: MovieEntity
         ) {
             val res = itemView.context.resources
 
-            movieTitle.text = item.title
-            lastSeen.text = item.seenOnDate
-            description.text = item.description
+            binding.movieTitle.text = item.title
+            binding.seenOnText.text = item.seenOnDate
+            binding.descriptionText.text = item.description
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater
-                    .inflate(R.layout.list_item, parent, false)
-                return ViewHolder(view)
+                val binding = ListItemBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
             }
         }
     }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import com.example.mymedialist.databinding.FragmentAddMediaBinding
 import com.example.mymedialist.model.MovieEntity
 import com.example.mymedialist.repository.MovieRepository
 import com.example.mymedialist.util.hideKeyboard
+import timber.log.Timber
 
 
 class AddMediaFragment : Fragment() {
@@ -36,10 +38,15 @@ class AddMediaFragment : Fragment() {
         val addMediaViewModel = ViewModelProvider(this, viewModelFactory)
             .get(AddMediaViewModel::class.java)
         binding.addMediaViewModel = addMediaViewModel
+        // TODO find out how to create adapter
 
+        // TODO create a method in view model to parse JSON response to suggestions
         addMediaViewModel.navigateToList.observe(this, Observer {
             if(it == true) {
-                val movieEntity = MovieEntity(null, binding.titleTextInput.text.toString(), "", "", "", 1, "")
+                addMediaViewModel.getMovieSearchResult(binding.autocompleteTitleTextview.text.toString())
+
+
+                val movieEntity = MovieEntity(null, binding.autocompleteTitleTextview.text.toString(), "", "", "", 1, "")
                 this.activity!!.hideKeyboard()
                 addMediaViewModel.addMovieToDatabase(movieEntity)
                 this.findNavController().navigate(
