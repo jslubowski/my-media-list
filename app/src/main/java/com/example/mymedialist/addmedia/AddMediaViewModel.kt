@@ -12,16 +12,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.Result as Result
 
 class AddMediaViewModel(
     val database: MovieRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val API_KEY = "cd0a70c0c0a80b3301a97accc396daa5"
-    private val LANGUAGE = "en-US"
-    private val PAGE = "1"
-    private val INCLUDE_ADULT = "false"
+    private val API_KEY         = "cd0a70c0c0a80b3301a97accc396daa5"
+    private val LANGUAGE        = "en-US"
+    private val PAGE            = "1"
+    private val INCLUDE_ADULT   = "false"
+    private val MAX_SIZE        = 3
 
     private var addMediaJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + addMediaJob)
@@ -49,11 +51,16 @@ class AddMediaViewModel(
         _navigateToList.value = null
     }
 
-    fun getMovieSearchResult(title: String) {
+    fun getMovieSearchResult(title: String): List<com.example.mymedialist.network.Result> {
+        var returnList = arrayListOf<com.example.mymedialist.network.Result>()
         ioScope.launch {
             val responseBody =
                 TmdbApi.retrofitService.searchMovie(API_KEY, LANGUAGE, title, PAGE, INCLUDE_ADULT)
-            Timber.i("API: ${responseBody.results}")
+            val size = if(responseBody.results.size > MAX_SIZE) MAX_SIZE else responseBody.results.size
+            for (i in 0 until size) {
+                returnList.add(responseBody.results[i])
+            }
         }
+        return returnList
     }
 }
