@@ -2,7 +2,6 @@ package com.example.mymedialist.mainlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymedialist.databinding.ListItemBinding
@@ -10,6 +9,7 @@ import com.example.mymedialist.model.MovieEntity
 
 class MainListAdapter(private val onLongClickListener: OnLongClickListener) : ListAdapter<MovieEntity, MainListAdapter.ViewHolder>(MovieEntityDiffCallback()) {
 
+    //TODO add onClickListener to navigate to dialog with rating and seenOn date
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -28,7 +28,8 @@ class MainListAdapter(private val onLongClickListener: OnLongClickListener) : Li
     }
 
     class ViewHolder private constructor(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val imageCover: ImageView = binding.movieCover
+        //TODO use Glide to convert imageUrl to actual image
+        private val imageCover = binding.movieCover
 
         fun bind(
             item: MovieEntity

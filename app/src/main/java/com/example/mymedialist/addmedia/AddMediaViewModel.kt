@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mymedialist.model.MovieEntity
 import com.example.mymedialist.network.TmdbApi
 import com.example.mymedialist.repository.MovieRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.Result as Result
 
@@ -33,12 +30,20 @@ class AddMediaViewModel(
     val navigateToList: LiveData<Boolean?>
         get() = _navigateToList
 
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
-        get() = _response
+    private val _searchMovies = MutableLiveData<Boolean?>()
+    val searchMovies: LiveData<Boolean?>
+        get() = _searchMovies
 
-    fun onAddButtonClick() {
-        _navigateToList.value = true
+    private val _moviesList = MutableLiveData<List<com.example.mymedialist.network.Result>>()
+    val moviesList: LiveData<List<com.example.mymedialist.network.Result>>
+        get() = _moviesList
+
+    init {
+        _moviesList.value = ArrayList()
+    }
+
+    fun onSearchButtonClicked() {
+        _searchMovies.value = true
     }
 
     fun addMovieToDatabase(movieEntity: MovieEntity) {
@@ -51,16 +56,24 @@ class AddMediaViewModel(
         _navigateToList.value = null
     }
 
-    fun getMovieSearchResult(title: String): List<com.example.mymedialist.network.Result> {
-        var returnList = arrayListOf<com.example.mymedialist.network.Result>()
+    fun doneSearching() {
+        _searchMovies.value = null
+    }
+
+    fun searchForMovies(title: String) {
         ioScope.launch {
-            val responseBody =
-                TmdbApi.retrofitService.searchMovie(API_KEY, LANGUAGE, title, PAGE, INCLUDE_ADULT)
-            val size = if(responseBody.results.size > MAX_SIZE) MAX_SIZE else responseBody.results.size
-            for (i in 0 until size) {
-                returnList.add(responseBody.results[i])
-            }
+            _moviesList.postValue(TmdbApi.retrofitService.searchMovie(
+                API_KEY,
+                LANGUAGE,
+                title,
+                PAGE,
+                INCLUDE_ADULT
+            ).results)
         }
-        return returnList
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        addMediaJob.cancel()
     }
 }

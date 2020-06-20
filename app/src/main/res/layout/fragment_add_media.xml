@@ -14,27 +14,43 @@
         android:layout_height="match_parent" >
 
         <Button
-            android:id="@+id/add_button"
+            android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:onClick="@{() -> addMediaViewModel.onAddButtonClick()}"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> addMediaViewModel.onSearchButtonClicked()}"
             android:text="@string/add_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/autocomplete_title_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-        <AutoCompleteTextView
-            android:id="@+id/autocomplete_title_textview"
+        <EditText
+            android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:ems="10"
             android:hint="@string/title"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/api_movies_list"
+            android:layout_width="match_parent"
+            android:layout_height="604dp"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_button"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
