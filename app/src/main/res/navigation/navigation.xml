@@ -32,8 +32,8 @@
         android:name="com.example.mymedialist.addmedia.AddMediaFragment"
         android:label="AddMediaFragment" >
         <action
-            android:id="@+id/action_addMediaFragment_to_mainListFragment"
-            app:destination="@id/mainListFragment" />
+            android:id="@+id/action_addMediaFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -45,5 +45,16 @@
         <argument
             android:name="selectedMovieEntity"
             app:argType="com.example.mymedialist.model.MovieEntity"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.example.mymedialist.additem.AddItemFragment"
+        android:label="AddItemFragment" >
+        <action
+            android:id="@+id/action_addItemFragment_to_mainListFragment"
+            app:destination="@id/mainListFragment" />
+        <argument
+            android:name="selectedResult"
+            app:argType="com.example.mymedialist.network.Result" />
     </fragment>
 </navigation>

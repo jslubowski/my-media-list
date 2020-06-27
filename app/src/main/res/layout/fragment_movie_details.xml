@@ -55,7 +55,7 @@
             app:layout_constraintStart_toEndOf="@+id/release_year_text"
             app:layout_constraintTop_toBottomOf="@+id/movie_title_text"
             tools:text="release year"
-            android:text="@{movieDetailsViewModel.selectedMovie.releaseYear}"/>
+            android:text="@{movieDetailsViewModel.selectedMovie.releaseYear.toString()}"/>
 
         <TextView
             android:id="@+id/last_seen_details"

@@ -7,13 +7,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_button_text">Search</string>
+    <string name="search_button_text">Search</string>
+    <string name="add_button_text">Add</string>
     <string name="remove_button_text">Remove</string>
     <string name="title">Title</string>
     <string name="dialog_properties_title">More options</string>
-    <string name="seen_on">"Last seen on: "</string>
+    <string name="seen_on">"Seen on: "</string>
     <string name="release_year">"Release year: "</string>
     <string name="description_text">"Description: "</string>
     <string name="edit_text">Edit...</string>
     <string name="ok_button_text">OK</string>
+    <string name="set_date">Set date</string>
+    <string name="rating_text">Rating: </string>
+    <string name="set_rating_button_text">Set rating</string>
 </resources>

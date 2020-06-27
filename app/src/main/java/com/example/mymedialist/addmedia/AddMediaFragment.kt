@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.mymedialist.R
+import androidx.navigation.fragment.findNavController
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentAddMediaBinding
 import com.example.mymedialist.repository.MovieRepository
@@ -22,11 +21,9 @@ class AddMediaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentAddMediaBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_add_media, container, false
-        )
+        val binding = FragmentAddMediaBinding.inflate(inflater)
 
+        binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
         val movieDao = MediaDatabase.getInstance(application).movieDao
         val datasource = MovieRepository(movieDao)
@@ -36,10 +33,16 @@ class AddMediaFragment : Fragment() {
             .get(AddMediaViewModel::class.java)
         binding.addMediaViewModel = addMediaViewModel
 
-        val adapter = AddMediaAdapter()
+        val adapter = AddMediaAdapter(AddMediaAdapter.OnClickListener {
+            this.findNavController().navigate(
+                AddMediaFragmentDirections.actionAddMediaFragmentToAddItemFragment(it)
+            )
+        })
         binding.apiMoviesList.adapter = adapter
 
         addMediaViewModel.searchMovies.observe(this, Observer {
+            addMediaViewModel.changeLoadingStatus(AddMediaViewModel.TmdbApiStatus.LOADING)
+            Timber.i("Search clicked and status was set to ${addMediaViewModel.status.value}")
             if (it == true) {
                 addMediaViewModel.searchForMovies(binding.editText.text.toString())
                 this.activity!!.hideKeyboard()
@@ -48,24 +51,12 @@ class AddMediaFragment : Fragment() {
         })
 
         addMediaViewModel.moviesList.observe(this, Observer {
+            addMediaViewModel.changeLoadingStatus(AddMediaViewModel.TmdbApiStatus.DONE)
+            Timber.i("MovieList Changed and status was set to ${addMediaViewModel.status.value}")
             it?.let {
                 adapter.submitList(it)
             }
         })
-
-
-//        addMediaViewModel.navigateToList.observe(this, Observer {
-//            if(it == true) {
-//                addMediaViewModel.searchForMovies(binding.autocompleteTitleTextview.text.toString())
-//                val movieEntity = MovieEntity(null, binding.autocompleteTitleTextview.text.toString(), "", "", "", 1, "")
-//                this.activity!!.hideKeyboard()
-//                addMediaViewModel.addMovieToDatabase(movieEntity)
-//                this.findNavController().navigate(
-//                    AddMediaFragmentDirections.actionAddMediaFragmentToMainListFragment()
-//                )
-//                addMediaViewModel.doneNavigating()
-//            }
-//        })
 
         return binding.root
     }

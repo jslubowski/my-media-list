@@ -1,7 +1,10 @@
 package com.example.mymedialist.network
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Result(
     @Json(name = "adult")
     val adult: Boolean,
@@ -23,4 +26,4 @@ data class Result(
     val releaseDate: String?,
     @Json(name = "title")
     val title: String
-)
+) : Parcelable

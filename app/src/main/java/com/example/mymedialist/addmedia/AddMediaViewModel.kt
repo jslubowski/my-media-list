@@ -9,6 +9,7 @@ import com.example.mymedialist.network.TmdbApi
 import com.example.mymedialist.repository.MovieRepository
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.lang.Exception
 import kotlin.Result as Result
 
 class AddMediaViewModel(
@@ -16,19 +17,14 @@ class AddMediaViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val API_KEY         = "cd0a70c0c0a80b3301a97accc396daa5"
-    private val LANGUAGE        = "en-US"
-    private val PAGE            = "1"
-    private val INCLUDE_ADULT   = "false"
-    private val MAX_SIZE        = 3
+    private val API_KEY = "cd0a70c0c0a80b3301a97accc396daa5"
+    private val LANGUAGE = "en-US"
+    private val PAGE = "1"
+    private val INCLUDE_ADULT = "false"
 
     private var addMediaJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + addMediaJob)
     private val ioScope = CoroutineScope(Dispatchers.IO + addMediaJob)
-
-    private val _navigateToList = MutableLiveData<Boolean?>()
-    val navigateToList: LiveData<Boolean?>
-        get() = _navigateToList
 
     private val _searchMovies = MutableLiveData<Boolean?>()
     val searchMovies: LiveData<Boolean?>
@@ -37,6 +33,10 @@ class AddMediaViewModel(
     private val _moviesList = MutableLiveData<List<com.example.mymedialist.network.Result>>()
     val moviesList: LiveData<List<com.example.mymedialist.network.Result>>
         get() = _moviesList
+
+    private val _status = MutableLiveData<TmdbApiStatus>()
+    val status: LiveData<TmdbApiStatus>
+        get() = _status
 
     init {
         _moviesList.value = ArrayList()
@@ -52,28 +52,38 @@ class AddMediaViewModel(
         }
     }
 
-    fun doneNavigating() {
-        _navigateToList.value = null
-    }
-
     fun doneSearching() {
         _searchMovies.value = null
     }
 
     fun searchForMovies(title: String) {
-        ioScope.launch {
-            _moviesList.postValue(TmdbApi.retrofitService.searchMovie(
-                API_KEY,
-                LANGUAGE,
-                title,
-                PAGE,
-                INCLUDE_ADULT
-            ).results)
+        try {
+            ioScope.launch {
+                _moviesList.postValue(
+                    TmdbApi.retrofitService.searchMovie(
+                        API_KEY,
+                        LANGUAGE,
+                        title,
+                        PAGE,
+                        INCLUDE_ADULT
+                    ).results
+                )
+            }
+        } catch (e: Exception) {
+            _status.value = TmdbApiStatus.ERROR
+            _moviesList.value = ArrayList()
         }
+    }
+
+    fun changeLoadingStatus(status: TmdbApiStatus) {
+        _status.value = status
+        Timber.i("Status was changed to ${_status.value}")
     }
 
     override fun onCleared() {
         super.onCleared()
         addMediaJob.cancel()
     }
+
+    enum class TmdbApiStatus { LOADING, ERROR, DONE }
 }
