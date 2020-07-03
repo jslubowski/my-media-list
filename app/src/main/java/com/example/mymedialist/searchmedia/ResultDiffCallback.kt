@@ -1,4 +1,4 @@
-package com.example.mymedialist.addmedia
+package com.example.mymedialist.searchmedia
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.mymedialist.network.Result

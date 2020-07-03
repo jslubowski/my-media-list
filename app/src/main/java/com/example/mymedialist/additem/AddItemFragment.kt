@@ -9,8 +9,8 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.example.mymedialist.addmedia.AddMediaViewModelFactory
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentAddItemBinding
 import com.example.mymedialist.repository.MovieRepository
@@ -31,7 +31,7 @@ class AddItemFragment : Fragment() {
         val movieDao = MediaDatabase.getInstance(application).movieDao
         val datasource = MovieRepository(movieDao)
 
-        val viewModelFactory = AddItemViewModelFactory(selectedItem, datasource, application)
+        val viewModelFactory = AddtemViewModelFactory(selectedItem, datasource, application)
         val addItemViewModel = ViewModelProvider(this, viewModelFactory)
             .get(AddItemViewModel::class.java)
         binding.addItemViewModel = addItemViewModel
@@ -53,10 +53,32 @@ class AddItemFragment : Fragment() {
         })
 
         addItemViewModel.selectedDate.observe(this, Observer {
-            if( it != null) {
+            if (it != null) {
                 binding.seenOnDate.text = addItemViewModel.selectedDate.value.toString()
+                addItemViewModel.datePicked()
             }
-            addItemViewModel.dateSet()
+        })
+
+        addItemViewModel.numberPickerPressed.observe(this, Observer {
+            if (it == true) {
+                val selectRatingDialog = SelectRatingDialog(addItemViewModel)
+                selectRatingDialog.show(fragmentManager!!, "rating_dialog")
+                addItemViewModel.ratingPickComplete()
+            }
+        })
+
+        addItemViewModel.rating.observe(this, Observer {
+            binding.ratingValue.text = addItemViewModel.rating.value.toString()
+        })
+
+        addItemViewModel.addButtonPressed.observe(this, Observer {
+            if (it == true) {
+                this.findNavController().navigate(
+                    AddItemFragmentDirections.actionAddItemFragmentToMainListFragment()
+                )
+                addItemViewModel.addItemToDatabase()
+                addItemViewModel.addingComplete()
+            }
         })
 
         return binding.root

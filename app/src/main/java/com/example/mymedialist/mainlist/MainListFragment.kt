@@ -13,6 +13,7 @@ import com.example.mymedialist.R
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentMainListBinding
 import com.example.mymedialist.repository.MovieRepository
+import timber.log.Timber
 
 class MainListFragment : Fragment() {
 

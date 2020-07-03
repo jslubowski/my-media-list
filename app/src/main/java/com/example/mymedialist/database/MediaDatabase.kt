@@ -8,7 +8,7 @@ import com.example.mymedialist.dao.MovieDao
 import com.example.mymedialist.model.MovieEntity
 
 
-@Database(entities = [MovieEntity::class], version = 4)
+@Database(entities = [MovieEntity::class], version = 7)
 abstract class MediaDatabase : RoomDatabase() {
     abstract val movieDao: MovieDao
 

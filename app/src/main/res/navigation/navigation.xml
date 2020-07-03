@@ -29,11 +29,11 @@
     </fragment>
     <fragment
         android:id="@+id/addMediaFragment"
-        android:name="com.example.mymedialist.addmedia.AddMediaFragment"
+        android:name="com.example.mymedialist.searchmedia.SearchMediaFragment"
         android:label="AddMediaFragment" >
         <action
             android:id="@+id/action_addMediaFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/searchItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -47,9 +47,9 @@
             app:argType="com.example.mymedialist.model.MovieEntity"/>
     </fragment>
     <fragment
-        android:id="@+id/addItemFragment"
+        android:id="@+id/searchItemFragment"
         android:name="com.example.mymedialist.additem.AddItemFragment"
-        android:label="AddItemFragment" >
+        android:label="SearchItemFragment" >
         <action
             android:id="@+id/action_addItemFragment_to_mainListFragment"
             app:destination="@id/mainListFragment" />

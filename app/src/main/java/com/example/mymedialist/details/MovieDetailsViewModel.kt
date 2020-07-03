@@ -10,10 +10,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class MovieDetailsViewModel(
     application: Application,
-    movieEntity: MovieEntity,
+    private val movieEntity: MovieEntity,
     private val database: MovieRepository
 ) : AndroidViewModel(application) {
 
@@ -28,15 +29,57 @@ class MovieDetailsViewModel(
     val EditAndNavigateToMainList: LiveData<Boolean?>
         get() = _EditAndNavigateToMainList
 
+    private val _editRatingButtonPressed = MutableLiveData<Boolean?>()
+    val editRatingButtonPressed: LiveData<Boolean?>
+        get() = _editRatingButtonPressed
+
+    private val _editDateButtonPressed = MutableLiveData<Boolean?>()
+    val editDateButtonPressed: LiveData<Boolean?>
+        get() = _editDateButtonPressed
+
     init {
         _selectedMovie.value = movieEntity
     }
 
-    fun onEditButtonClick() {
+    fun editRating(value: Int) {
+        movieEntity.rating = value
+        update()
+    }
+
+
+    fun editDate(date: LocalDate) {
+        movieEntity.seenOnDate = date
+        update()
+    }
+
+    private fun update() {
+        uiScope.launch {
+            database.insertEntity(movieEntity)
+        }
+        _selectedMovie.value = movieEntity
+    }
+
+    fun onOkButtonClick() {
         _EditAndNavigateToMainList.value = true
     }
 
-    fun doneNavigating(){
+    fun onEditRatingButtonClick() {
+        _editRatingButtonPressed.value = true
+    }
+
+    fun onEditDateButtonClick() {
+        _editDateButtonPressed.value = true
+    }
+
+    fun doneEditingDate() {
+        _editDateButtonPressed.value = null
+    }
+
+    fun doneEditingRating() {
+        _editRatingButtonPressed.value = null
+    }
+
+    fun doneNavigating() {
         _EditAndNavigateToMainList.value = null
     }
 }

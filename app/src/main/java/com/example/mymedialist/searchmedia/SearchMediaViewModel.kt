@@ -1,4 +1,4 @@
-package com.example.mymedialist.addmedia
+package com.example.mymedialist.searchmedia
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,10 +10,8 @@ import com.example.mymedialist.repository.MovieRepository
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.lang.Exception
-import kotlin.Result as Result
 
-class AddMediaViewModel(
-    val database: MovieRepository,
+class SearchMediaViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -23,7 +21,6 @@ class AddMediaViewModel(
     private val INCLUDE_ADULT = "false"
 
     private var addMediaJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + addMediaJob)
     private val ioScope = CoroutineScope(Dispatchers.IO + addMediaJob)
 
     private val _searchMovies = MutableLiveData<Boolean?>()
@@ -44,12 +41,6 @@ class AddMediaViewModel(
 
     fun onSearchButtonClicked() {
         _searchMovies.value = true
-    }
-
-    fun addMovieToDatabase(movieEntity: MovieEntity) {
-        ioScope.launch {
-            database.insertEntity(movieEntity)
-        }
     }
 
     fun doneSearching() {

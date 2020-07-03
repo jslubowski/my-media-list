@@ -35,7 +35,6 @@ class MainListViewModel(
 
     fun displayMovieDetails(movieEntity: MovieEntity) {
         _navigateToMovieDetails.value = movieEntity
-//        return true
     }
 
     fun displayMovieDetailsComplete() {

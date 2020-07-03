@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="addMediaViewModel"
-            type="com.example.mymedialist.addmedia.AddMediaViewModel"/>
+            name="searchMediaViewModel"
+            type="com.example.mymedialist.searchmedia.SearchMediaViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:onClick="@{() -> addMediaViewModel.onSearchButtonClicked()}"
+            android:onClick="@{() -> searchMediaViewModel.onSearchButtonClicked()}"
             android:text="@string/search_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_button"
-            app:tmdbApiStatus="@{addMediaViewModel.status}" />
+            app:tmdbApiStatus="@{searchMediaViewModel.status}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/api_movies_list"

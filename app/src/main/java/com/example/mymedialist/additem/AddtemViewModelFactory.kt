@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymedialist.network.Result
 import com.example.mymedialist.repository.MovieRepository
 
-class AddItemViewModelFactory(
+class AddtemViewModelFactory(
     private val selectedItem: Result,
     private val dataSource: MovieRepository,
     private val application: Application

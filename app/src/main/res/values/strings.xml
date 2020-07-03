@@ -20,4 +20,9 @@
     <string name="set_date">Set date</string>
     <string name="rating_text">Rating: </string>
     <string name="set_rating_button_text">Set rating</string>
+    <string name="rating_picker_title">Select your rating</string>
+    <string name="rating_picker_positive">OK</string>
+    <string name="rating_picker_negative">Cancel</string>
+    <string name="edit_date_button_text">Edit date</string>
+    <string name="edit_rating_button_text">Edit rating</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.mymedialist.addmedia
+package com.example.mymedialist.searchmedia
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,14 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mymedialist.R
 import com.example.mymedialist.databinding.ApiMovieItemBinding
-import com.example.mymedialist.generated.callback.OnClickListener
-import com.example.mymedialist.mainlist.MainListAdapter
-import com.example.mymedialist.model.MovieEntity
 import com.example.mymedialist.network.Result
 import timber.log.Timber
-import java.io.FileNotFoundException
 
-class AddMediaAdapter(private val onClickListener: OnClickListener) : ListAdapter<Result, AddMediaAdapter.ViewHolder>(ResultDiffCallback()){
+class SearchMediaAdapter(private val onClickListener: OnClickListener) : ListAdapter<Result, SearchMediaAdapter.ViewHolder>(ResultDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -37,7 +33,6 @@ class AddMediaAdapter(private val onClickListener: OnClickListener) : ListAdapte
         fun bind(
             item: Result
         ) {
-            val res = itemView.resources
             if (item.posterPath != null) {
                 Glide
                     .with(binding.movieCover.context)

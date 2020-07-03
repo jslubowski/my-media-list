@@ -1,4 +1,4 @@
-package com.example.mymedialist.addmedia
+package com.example.mymedialist.searchmedia
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,7 +15,7 @@ import com.example.mymedialist.util.hideKeyboard
 import timber.log.Timber
 
 
-class AddMediaFragment : Fragment() {
+class SearchMediaFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,20 +28,20 @@ class AddMediaFragment : Fragment() {
         val movieDao = MediaDatabase.getInstance(application).movieDao
         val datasource = MovieRepository(movieDao)
 
-        val viewModelFactory = AddMediaViewModelFactory(datasource, application)
+        val viewModelFactory = SearchMediaViewModelFactory(application)
         val addMediaViewModel = ViewModelProvider(this, viewModelFactory)
-            .get(AddMediaViewModel::class.java)
-        binding.addMediaViewModel = addMediaViewModel
+            .get(SearchMediaViewModel::class.java)
+        binding.searchMediaViewModel = addMediaViewModel
 
-        val adapter = AddMediaAdapter(AddMediaAdapter.OnClickListener {
+        val adapter = SearchMediaAdapter(SearchMediaAdapter.OnClickListener {
             this.findNavController().navigate(
-                AddMediaFragmentDirections.actionAddMediaFragmentToAddItemFragment(it)
+                SearchMediaFragmentDirections.actionAddMediaFragmentToAddItemFragment(it)
             )
         })
         binding.apiMoviesList.adapter = adapter
 
         addMediaViewModel.searchMovies.observe(this, Observer {
-            addMediaViewModel.changeLoadingStatus(AddMediaViewModel.TmdbApiStatus.LOADING)
+            addMediaViewModel.changeLoadingStatus(SearchMediaViewModel.TmdbApiStatus.LOADING)
             Timber.i("Search clicked and status was set to ${addMediaViewModel.status.value}")
             if (it == true) {
                 addMediaViewModel.searchForMovies(binding.editText.text.toString())
@@ -51,7 +51,7 @@ class AddMediaFragment : Fragment() {
         })
 
         addMediaViewModel.moviesList.observe(this, Observer {
-            addMediaViewModel.changeLoadingStatus(AddMediaViewModel.TmdbApiStatus.DONE)
+            addMediaViewModel.changeLoadingStatus(SearchMediaViewModel.TmdbApiStatus.DONE)
             Timber.i("MovieList Changed and status was set to ${addMediaViewModel.status.value}")
             it?.let {
                 adapter.submitList(it)

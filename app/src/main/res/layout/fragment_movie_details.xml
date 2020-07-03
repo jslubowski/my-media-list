@@ -24,18 +24,18 @@
 
         <TextView
             android:id="@+id/movie_title_text"
-            android:layout_width="221dp"
-            android:layout_height="27dp"
+            android:layout_width="217dp"
+            android:layout_height="84dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
+            android:text="@{movieDetailsViewModel.selectedMovie.title}"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/image_cover"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Movie Title"
-            android:text="@{movieDetailsViewModel.selectedMovie.title}"/>
+            tools:text="Movie Title" />
 
         <TextView
             android:id="@+id/release_year_text"
@@ -75,23 +75,20 @@
             app:layout_constraintStart_toEndOf="@+id/last_seen_details"
             app:layout_constraintTop_toBottomOf="@+id/release_year_text"
             tools:text="dd/mm/yyyy"
-            android:text="@{movieDetailsViewModel.selectedMovie.seenOnDate}"/>
+            android:text="@{movieDetailsViewModel.selectedMovie.seenOnDate.toString()}"/>
 
         <TextView
             android:id="@+id/description_text"
-            android:layout_width="367dp"
-            android:layout_height="420dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="70dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@{movieDetailsViewModel.selectedMovie.description}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_cover"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam magna ipsum, congue consequat ipsum quis, porttitor fringilla sapien. Praesent at nulla sit amet nibh tempus varius. Nullam eu arcu eget enim porttitor vulputate. Integer vulputate non odio eget vestibulum. Donec lobortis pretium volutpat. Praesent hendrerit sagittis mauris et rutrum. Nunc eu diam at orci molestie malesuada sit amet ut turpis. Vivamus tristique, velit eget ultricies pulvinar, elit magna varius risus, at suscipit quam erat et massa.  Curabitur euismod ex sed velit rutrum, vitae viverra justo venenatis. Suspendisse porta purus et mattis malesuada. Morbi nec dui ut elit bibendum laoreet. Praesent in tincidunt ex, sed vehicula metus. Nulla consectetur diam a ullamcorper tempus. Nunc lorem felis, imperdiet eu turpis eu, sodales tempus massa. Donec a cursus augue. Donec eget venenatis lorem, vel ultrices enim. Maecenas porttitor tempor felis ut accumsan. Vivamus nec commodo tortor. Integer nec interdum diam.  Mauris aliquam, dui at tristique consectetur, ante felis placerat dui, eu pharetra nibh lectus eu enim. Cras at auctor purus. Sed id augue eu ante aliquam bibendum vel vel massa. Cras tempor porta cursus. Duis aliquet ex sed pellentesque molestie. Vestibulum nec orci lorem. Quisque eget elit id ipsum tempus tempor eu nec."
-            android:text="@{movieDetailsViewModel.selectedMovie.description}"/>
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam magna ipsum, congue consequat ipsum quis, porttitor fringilla sapien. Praesent at nulla sit amet nibh tempus varius. Nullam eu arcu eget enim porttitor vulputate. Integer vulputate non odio eget vestibulum. Donec lobortis pretium volutpat. Praesent hendrerit sagittis mauris et rutrum. Nunc eu diam at orci molestie malesuada sit amet..." />
 
         <Button
             android:id="@+id/ok_button"
@@ -99,12 +96,53 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:onClick="@{() -> movieDetailsViewModel.onEditButtonClick()}"
+            android:onClick="@{() -> movieDetailsViewModel.onOkButtonClick()}"
             android:text="@string/ok_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_text"
             app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/rating_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/rating_text"
+            app:layout_constraintStart_toEndOf="@+id/image_cover"
+            app:layout_constraintTop_toBottomOf="@+id/last_seen_details" />
+
+        <TextView
+            android:id="@+id/user_rating_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/rating_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/last_seen_on_date"
+            tools:text="x / 10" />
+
+        <Button
+            android:id="@+id/edit_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/edit_date_button_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_text"
+            android:onClick="@{() -> movieDetailsViewModel.onEditDateButtonClick()}"/>
+
+        <Button
+            android:id="@+id/edit_rating_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="64dp"
+            android:text="@string/edit_rating_button_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_text"
+            android:onClick="@{() -> movieDetailsViewModel.onEditRatingButtonClick()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

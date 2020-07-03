@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mymedialist.databinding.ListItemBinding
 import com.example.mymedialist.model.MovieEntity
+import com.example.mymedialist.util.smartTruncate
 
 class MainListAdapter(private val onLongClickListener: OnLongClickListener) : ListAdapter<MovieEntity, MainListAdapter.ViewHolder>(MovieEntityDiffCallback()) {
 
@@ -28,17 +30,20 @@ class MainListAdapter(private val onLongClickListener: OnLongClickListener) : Li
     }
 
     class ViewHolder private constructor(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        //TODO use Glide to convert imageUrl to actual image
-        private val imageCover = binding.movieCover
 
         fun bind(
             item: MovieEntity
         ) {
-            val res = itemView.context.resources
+            if (item.imageUrl != null) {
+                Glide
+                    .with(binding.movieCover.context)
+                    .load("https://image.tmdb.org/t/p/w500/" + item.imageUrl)
+                    .into(binding.movieCover)
+            }
 
-            binding.movieTitle.text = item.title
-            binding.seenOnText.text = item.seenOnDate
-            binding.descriptionText.text = item.description
+            binding.movieTitle.text = item.title.smartTruncate(23)
+            binding.dateText.text = item.seenOnDate.toString()
+            binding.descriptionText.text = item.description?.smartTruncate(100)
         }
 
         companion object {

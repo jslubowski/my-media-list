@@ -19,17 +19,18 @@ data class MovieEntity constructor(
     val id: Long?,
     val title: String,
     @ColumnInfo(name = "image_url")
-    val imageUrl: String,
-    val description: String,
+    val imageUrl: String?,
+    val description: String?,
     @ColumnInfo(name = "release_year")
-    val releaseYear: LocalDate,
-    val rating: Int,
+    val releaseYear: String?,
+    var rating: Int?,
     @ColumnInfo(name = "seen_on_date")
-    val seenOnDate: String
-) : Parcelable{
+    var seenOnDate: LocalDate?
+) : Parcelable {
 
     val shortDescription: String
-        get() = description.smartTruncate(150)
+        get() = description!!.smartTruncate(150)
+
 }
 
 
