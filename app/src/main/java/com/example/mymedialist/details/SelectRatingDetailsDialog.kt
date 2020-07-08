@@ -19,7 +19,7 @@ class SelectRatingDetailsDialog(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it, R.style.AlertDialogTheme)
             val inflater = requireActivity().layoutInflater
             val binding = DialogSelectRatingBinding.inflate(inflater)
 

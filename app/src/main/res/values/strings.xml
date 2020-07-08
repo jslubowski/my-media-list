@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">my-media-list</string>
+    <string name="app_name">My Movie List</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_screen_text">My Media List</string>
@@ -8,6 +8,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_button_text">Search</string>
+    <string name="search_list_text">Search your list</string>
     <string name="add_button_text">Add</string>
     <string name="remove_button_text">Remove</string>
     <string name="title">Title</string>
@@ -25,4 +26,12 @@
     <string name="rating_picker_negative">Cancel</string>
     <string name="edit_date_button_text">Edit date</string>
     <string name="edit_rating_button_text">Edit rating</string>
+    <string name="statistics_text">Statistics</string>
+    <string name="about_text">About</string>
+    <string name="statistics_header_text" >Select dates:</string>
+    <string name="from_text_view">From:</string>
+    <string name="from_date_button_text">Set from date</string>
+    <string name="to_text_view">To</string>
+    <string name="to_date_button">Set to date</string>
+    <string name="number_of_movies_info" >Number of movies watched during this period:</string>
 </resources>

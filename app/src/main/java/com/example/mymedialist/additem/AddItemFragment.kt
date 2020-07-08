@@ -1,5 +1,6 @@
 package com.example.mymedialist.additem
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.mymedialist.R
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentAddItemBinding
 import com.example.mymedialist.repository.MovieRepository
+import kotlinx.android.synthetic.main.fragment_movie_details.*
 import timber.log.Timber
 
 class AddItemFragment : Fragment() {
@@ -26,7 +30,7 @@ class AddItemFragment : Fragment() {
         val binding = FragmentAddItemBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        val selectedItem = AddItemFragmentArgs.fromBundle(arguments!!).selectedResult
+        val selectedItem = AddItemFragmentArgs.fromBundle(requireArguments()).selectedResult
         val application = requireNotNull(this.activity).application
         val movieDao = MediaDatabase.getInstance(application).movieDao
         val datasource = MovieRepository(movieDao)
@@ -47,31 +51,31 @@ class AddItemFragment : Fragment() {
         }
         bindImage(binding.movieCover, selectedItem.posterPath)
 
-        addItemViewModel.setDatePressed.observe(this, Observer {
+        addItemViewModel.setDatePressed.observe(viewLifecycleOwner, Observer {
             val datePickerDialog = SelectDateDialog(addItemViewModel)
-            datePickerDialog.show(fragmentManager!!, "date_dialog")
+            datePickerDialog.show(this.childFragmentManager, "date_dialog")
         })
 
-        addItemViewModel.selectedDate.observe(this, Observer {
+        addItemViewModel.selectedDate.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 binding.seenOnDate.text = addItemViewModel.selectedDate.value.toString()
                 addItemViewModel.datePicked()
             }
         })
 
-        addItemViewModel.numberPickerPressed.observe(this, Observer {
+        addItemViewModel.numberPickerPressed.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val selectRatingDialog = SelectRatingDialog(addItemViewModel)
-                selectRatingDialog.show(fragmentManager!!, "rating_dialog")
+                selectRatingDialog.show(this.childFragmentManager, "rating_dialog")
                 addItemViewModel.ratingPickComplete()
             }
         })
 
-        addItemViewModel.rating.observe(this, Observer {
+        addItemViewModel.rating.observe(viewLifecycleOwner, Observer {
             binding.ratingValue.text = addItemViewModel.rating.value.toString()
         })
 
-        addItemViewModel.addButtonPressed.observe(this, Observer {
+        addItemViewModel.addButtonPressed.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 this.findNavController().navigate(
                     AddItemFragmentDirections.actionAddItemFragmentToMainListFragment()
@@ -80,6 +84,7 @@ class AddItemFragment : Fragment() {
                 addItemViewModel.addingComplete()
             }
         })
+
 
         return binding.root
     }

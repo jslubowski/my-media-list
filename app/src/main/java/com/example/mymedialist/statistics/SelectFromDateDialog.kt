@@ -1,18 +1,15 @@
-package com.example.mymedialist.additem
+package com.example.mymedialist.statistics
 
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.os.Build
 import android.os.Bundle
 import android.widget.DatePicker
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
-import java.time.LocalDate
 import java.util.*
 
-class SelectDateDialog(
-    private val addItemViewModel: AddItemViewModel
-) : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class SelectFromDateDialog(
+    private val statisticsViewModel: StatisticsViewModel
+): DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
@@ -23,9 +20,7 @@ class SelectDateDialog(
         return DatePickerDialog(this.requireContext(), this, year, month, day)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        addItemViewModel.setSeenOnDate(LocalDate.of(year, month, dayOfMonth))
+        TODO("Not yet implemented")
     }
-
 }

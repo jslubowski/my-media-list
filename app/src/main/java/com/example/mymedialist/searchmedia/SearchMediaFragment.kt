@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mymedialist.database.MediaDatabase
-import com.example.mymedialist.databinding.FragmentAddMediaBinding
+import com.example.mymedialist.databinding.FragmentSearchMediaBinding
 import com.example.mymedialist.repository.MovieRepository
 import com.example.mymedialist.util.hideKeyboard
 import timber.log.Timber
@@ -21,7 +21,7 @@ class SearchMediaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentAddMediaBinding.inflate(inflater)
+        val binding = FragmentSearchMediaBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
@@ -40,17 +40,17 @@ class SearchMediaFragment : Fragment() {
         })
         binding.apiMoviesList.adapter = adapter
 
-        addMediaViewModel.searchMovies.observe(this, Observer {
+        addMediaViewModel.searchMovies.observe(viewLifecycleOwner, Observer {
             addMediaViewModel.changeLoadingStatus(SearchMediaViewModel.TmdbApiStatus.LOADING)
             Timber.i("Search clicked and status was set to ${addMediaViewModel.status.value}")
             if (it == true) {
                 addMediaViewModel.searchForMovies(binding.editText.text.toString())
-                this.activity!!.hideKeyboard()
+                this.requireActivity().hideKeyboard()
                 addMediaViewModel.doneSearching()
             }
         })
 
-        addMediaViewModel.moviesList.observe(this, Observer {
+        addMediaViewModel.moviesList.observe(viewLifecycleOwner, Observer {
             addMediaViewModel.changeLoadingStatus(SearchMediaViewModel.TmdbApiStatus.DONE)
             Timber.i("MovieList Changed and status was set to ${addMediaViewModel.status.value}")
             it?.let {

@@ -6,6 +6,7 @@ import com.example.mymedialist.model.MovieEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.time.LocalDate
 
 // TODO (perfect for DI or to turn into singleton)
 
@@ -43,6 +44,10 @@ class MovieRepository(private val movieDao: MovieDao) {
 
     fun searchForMovie(title: String, releaseYear: String): MovieEntity? {
         return movieDao.searchForEntity(title, releaseYear)
+    }
+
+    fun getMoviesWatchedInPeriod(from: LocalDate, to:LocalDate): Int {
+        return movieDao.findNumberOfMoviesWatchedBetween(from, to)
     }
 
 }

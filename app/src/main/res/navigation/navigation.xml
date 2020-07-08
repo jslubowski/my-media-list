@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_mainListFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_mainListFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addMediaFragment"
@@ -56,5 +59,13 @@
         <argument
             android:name="selectedResult"
             app:argType="com.example.mymedialist.network.Result" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.example.mymedialist.statistics.StatisticsFragment"
+        android:label="StatisticsFragment" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_mainListFragment"
+            app:destination="@id/mainListFragment" />
     </fragment>
 </navigation>

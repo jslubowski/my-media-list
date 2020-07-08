@@ -17,7 +17,7 @@ class MainListViewModel(
 ) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     private val _navigateToAddScreen = MutableLiveData<Boolean?>()
     val navigateToAddScreen: LiveData<Boolean?>

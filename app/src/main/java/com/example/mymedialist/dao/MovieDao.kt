@@ -20,4 +20,6 @@ interface MovieDao {
     @Query("select * from movies where title like :title and release_year like :releaseYear")
     fun searchForEntity(title: String, releaseYear: String): MovieEntity?
 
+    @Query("select count(*) from movies where seen_on_date between :from and :to")
+    fun findNumberOfMoviesWatchedBetween(from: LocalDate, to: LocalDate): Int
 }

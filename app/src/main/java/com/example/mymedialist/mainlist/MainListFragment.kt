@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,7 +12,6 @@ import com.example.mymedialist.R
 import com.example.mymedialist.database.MediaDatabase
 import com.example.mymedialist.databinding.FragmentMainListBinding
 import com.example.mymedialist.repository.MovieRepository
-import timber.log.Timber
 
 class MainListFragment : Fragment() {
 
@@ -22,11 +20,7 @@ class MainListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentMainListBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_main_list, container, false
-        )
-
+        val binding = FragmentMainListBinding.inflate(inflater)
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
         val dao = MediaDatabase.getInstance(application).movieDao
@@ -39,7 +33,7 @@ class MainListFragment : Fragment() {
 
         val adapter = MainListAdapter(MainListAdapter.OnLongClickListener {
             val dialog = DetailsDialogFragment(mainListViewModel, it)
-            dialog.show(fragmentManager!! , "options_dialog")
+            dialog.show(this.childFragmentManager , "options_dialog")
             return@OnLongClickListener true
         })
 
@@ -51,7 +45,7 @@ class MainListFragment : Fragment() {
             }
         })
 
-        mainListViewModel.navigateToMovieDetails.observe(this, Observer {
+        mainListViewModel.navigateToMovieDetails.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 this.findNavController().navigate(
                     MainListFragmentDirections.actionMainListFragmentToMovieDetailsFragment(it)
@@ -60,7 +54,7 @@ class MainListFragment : Fragment() {
             }
         })
 
-        mainListViewModel.navigateToAddScreen.observe(this, Observer {
+        mainListViewModel.navigateToAddScreen.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 this.findNavController().navigate(
                     MainListFragmentDirections.actionMainListFragmentToAddMediaFragment()
@@ -68,6 +62,18 @@ class MainListFragment : Fragment() {
                 mainListViewModel.doneNavigating()
             }
         })
+
+        binding.topAppBar.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.statistics_menu -> {
+                    this.findNavController().navigate(
+                        MainListFragmentDirections.actionMainListFragmentToStatisticsFragment()
+                    )
+                    true
+                }
+                else -> false
+            }
+        }
 
         return binding.root
     }
