@@ -25,9 +25,9 @@ class MovieDetailsViewModel(
     val selectedMovie: LiveData<MovieEntity>
         get() = _selectedMovie
 
-    private val _EditAndNavigateToMainList = MutableLiveData<Boolean?>()
-    val EditAndNavigateToMainList: LiveData<Boolean?>
-        get() = _EditAndNavigateToMainList
+    private val _editAndNavigateToMainList = MutableLiveData<Boolean?>()
+    val editAndNavigateToMainList: LiveData<Boolean?>
+        get() = _editAndNavigateToMainList
 
     private val _editRatingButtonPressed = MutableLiveData<Boolean?>()
     val editRatingButtonPressed: LiveData<Boolean?>
@@ -60,7 +60,7 @@ class MovieDetailsViewModel(
     }
 
     fun onOkButtonClick() {
-        _EditAndNavigateToMainList.value = true
+        _editAndNavigateToMainList.value = true
     }
 
     fun onEditRatingButtonClick() {
@@ -80,6 +80,6 @@ class MovieDetailsViewModel(
     }
 
     fun doneNavigating() {
-        _EditAndNavigateToMainList.value = null
+        _editAndNavigateToMainList.value = null
     }
 }

@@ -1,8 +1,11 @@
 package com.example.mymedialist.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.example.mymedialist.dao.MovieDao
 import com.example.mymedialist.model.MovieEntity
+import com.example.mymedialist.util.DateConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -46,8 +49,10 @@ class MovieRepository(private val movieDao: MovieDao) {
         return movieDao.searchForEntity(title, releaseYear)
     }
 
-    fun getMoviesWatchedInPeriod(from: LocalDate, to:LocalDate): Int {
-        return movieDao.findNumberOfMoviesWatchedBetween(from, to)
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getMoviesWatchedInPeriod(from: LocalDate, to:LocalDate): List<MovieEntity> {
+        Timber.i("Inside MovieRepository! From: ${DateConverter.fromDate(from)}, To: ${DateConverter.fromDate(to)}")
+        return movieDao.findMoviesWatchedBetween(from, to)
     }
 
 }

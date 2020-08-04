@@ -33,7 +33,7 @@ class MovieDetailsFragment: Fragment() {
 
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
-        val movieEntity = MovieDetailsFragmentArgs.fromBundle(arguments!!).selectedMovieEntity
+        val movieEntity = MovieDetailsFragmentArgs.fromBundle(requireArguments()).selectedMovieEntity
         val dao = MediaDatabase.getInstance(application).movieDao
         val datasource = MovieRepository(dao)
 
@@ -42,7 +42,7 @@ class MovieDetailsFragment: Fragment() {
             .get(MovieDetailsViewModel::class.java)
         fillTextViews(binding, movieDetailsViewModel)
 
-        movieDetailsViewModel.EditAndNavigateToMainList.observe(this, Observer {
+        movieDetailsViewModel.editAndNavigateToMainList.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 this.findNavController().navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMainListFragment()
@@ -51,23 +51,24 @@ class MovieDetailsFragment: Fragment() {
             }
         })
 
-        movieDetailsViewModel.editDateButtonPressed.observe(this, Observer {
+        movieDetailsViewModel.editDateButtonPressed.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 val dateDialog = SelectDateDetailsDialog(movieDetailsViewModel)
-                dateDialog.show(fragmentManager!!, "date_details_dialog")
+                dateDialog.show(requireFragmentManager(), "date_details_dialog")
                 movieDetailsViewModel.doneEditingDate()
             }
         })
 
-        movieDetailsViewModel.editRatingButtonPressed.observe( this, Observer {
+        movieDetailsViewModel.editRatingButtonPressed.observe( viewLifecycleOwner, Observer {
             if(it == true) {
                 val ratingDialog = SelectRatingDetailsDialog(movieDetailsViewModel)
-                ratingDialog.show(fragmentManager!!, "rating_details_dialog")
+                ratingDialog.show(requireFragmentManager(), "rating_details_dialog")
                 movieDetailsViewModel.doneEditingRating()
             }
         })
 
-        movieDetailsViewModel.selectedMovie.observe(this, Observer {
+
+        movieDetailsViewModel.selectedMovie.observe(viewLifecycleOwner, Observer {
             fillTextViews(binding, movieDetailsViewModel)
         })
 

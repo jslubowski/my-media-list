@@ -25,9 +25,6 @@ class SearchMediaFragment : Fragment() {
 
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
-        val movieDao = MediaDatabase.getInstance(application).movieDao
-        val datasource = MovieRepository(movieDao)
-
         val viewModelFactory = SearchMediaViewModelFactory(application)
         val addMediaViewModel = ViewModelProvider(this, viewModelFactory)
             .get(SearchMediaViewModel::class.java)
@@ -52,7 +49,6 @@ class SearchMediaFragment : Fragment() {
 
         addMediaViewModel.moviesList.observe(viewLifecycleOwner, Observer {
             addMediaViewModel.changeLoadingStatus(SearchMediaViewModel.TmdbApiStatus.DONE)
-            Timber.i("MovieList Changed and status was set to ${addMediaViewModel.status.value}")
             it?.let {
                 adapter.submitList(it)
             }

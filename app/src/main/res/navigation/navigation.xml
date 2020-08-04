@@ -3,18 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/titleScreenFragment">
+    app:startDestination="@id/mainListFragment">
 
 
-    <fragment
-        android:id="@+id/titleScreenFragment"
-        android:name="com.example.mymedialist.titlescreen.TitleScreenFragment"
-        android:label="fragment_title_screen"
-        tools:layout="@layout/fragment_title_screen" >
-        <action
-            android:id="@+id/action_titleScreenFragment_to_mainListFragment"
-            app:destination="@id/mainListFragment" />
-    </fragment>
     <fragment
         android:id="@+id/mainListFragment"
         android:name="com.example.mymedialist.mainlist.MainListFragment"

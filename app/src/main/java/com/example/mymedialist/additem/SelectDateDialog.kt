@@ -25,7 +25,7 @@ class SelectDateDialog(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        addItemViewModel.setSeenOnDate(LocalDate.of(year, month, dayOfMonth))
+        addItemViewModel.setSeenOnDate(LocalDate.of(year, month + 1, dayOfMonth))
     }
 
 }

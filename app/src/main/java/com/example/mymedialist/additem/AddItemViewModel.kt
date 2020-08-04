@@ -1,16 +1,20 @@
 package com.example.mymedialist.additem
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mymedialist.model.MovieEntity
 import com.example.mymedialist.network.Result
 import com.example.mymedialist.repository.MovieRepository
+import com.example.mymedialist.util.DateConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 
 class AddItemViewModel(

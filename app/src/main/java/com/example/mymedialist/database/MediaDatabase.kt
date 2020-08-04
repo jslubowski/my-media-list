@@ -1,14 +1,14 @@
 package com.example.mymedialist.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.example.mymedialist.dao.MovieDao
 import com.example.mymedialist.model.MovieEntity
+import com.example.mymedialist.util.DateConverter
 
 
 @Database(entities = [MovieEntity::class], version = 7)
+@TypeConverters(DateConverter::class)
 abstract class MediaDatabase : RoomDatabase() {
     abstract val movieDao: MovieDao
 

@@ -2,9 +2,13 @@ package com.example.mymedialist.statistics
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.widget.DatePicker
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
+import timber.log.Timber
+import java.time.LocalDate
 import java.util.*
 
 class SelectFromDateDialog(
@@ -20,7 +24,9 @@ class SelectFromDateDialog(
         return DatePickerDialog(this.requireContext(), this, year, month, day)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        TODO("Not yet implemented")
+        Timber.i("$year - $month - $dayOfMonth")
+        statisticsViewModel.setFromDate(LocalDate.of(year, month + 1, dayOfMonth))
     }
 }

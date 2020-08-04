@@ -23,12 +23,12 @@ class SelectDateDetailsDialog(
         val month = c.get(Calendar.MONTH)
         val year = c.get(Calendar.YEAR)
 
-        return DatePickerDialog(this.context!!, this, year, month, day)
+        return DatePickerDialog(this.requireContext(), this, year, month, day)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        movieDetailsViewModel.editDate(LocalDate.of(year, month, dayOfMonth))
+        movieDetailsViewModel.editDate(LocalDate.of(year, month + 1, dayOfMonth))
     }
 
 }
